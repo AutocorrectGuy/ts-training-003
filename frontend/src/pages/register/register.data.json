@@ -1,0 +1,75 @@
+{
+  "pageType": "register",
+  "title": "QR noliktava",
+  "form": {
+    "title": "Reģistrācija",
+    "inputs": [
+      {
+        "name": "username",
+        "type": "text",
+        "label": "Lietotājvārds",
+        "placeholder": "Ievadiet lietotājvārdu",
+        "validation": [
+          {
+            "regPattern": "^.{5,20}$",
+            "errorValue": "Lietotājvārda garumam jābūt no 5 līdz 20 rakstzīmēm"
+          },
+          {
+            "regPattern": "^[a-zA-Z]",
+            "errorValue": "Lietotājvārdam jāsākas ar lielo vai mazo latīņu alfabēta burtu (a-z, A-Z)"
+          },
+          {
+            "regPattern": "^[a-zA-Z0-9_]*$",
+            "errorValue": "Drīkst izmantot tikai alfa-numeriskas rakstzīmes un apakšsvītru (a-z, A-Z, 0-9, _ )"
+          }
+        ]
+      },
+      {
+        "name": "password",
+        "type": "password",
+        "label": "Parole",
+        "placeholder": "Parole",
+        "validation": [
+          {
+            "regPattern": "^.{5,20}$",
+            "errorValue": "Paroles garumam jābūt no 5 līdz 20 rakstzīmēm"
+          },
+          {
+            "regPattern": ".*[a-zA-Z].*",
+            "errorValue": "Jābūt vismaz vienam mazajam latīņu alfabēta burtam (a-z)"
+          },
+          {
+            "regPattern": ".*[A-Z].*",
+            "errorValue": "Jābūt vismaz vienam lielajam latīņu alfabēta burtam (A-Z)"
+          },
+          {
+            "regPattern": ".*[0-9].*",
+            "errorValue": "Jābūt vismaz vienam ciparam (0-9)"
+          },
+          {
+            "regPattern": ".*[!@#$%^&*(),.?\":{}|<>].*",
+            "errorValue": "Jābūt vismaz vienam simbolam: (!@#$%^&*(),.?\":{}|<>])"
+          }
+        ]
+      },
+      {
+        "name": "confirmPassword",
+        "type": "password",
+        "label": "Atkārtojiet paroli",
+        "placeholder": "Parole vēlreiz",
+        "validation": [
+          {
+            "regPattern": "prev",
+            "errorValue": "Abām parolēm jābūt vienādām"
+          }
+        ]
+      }
+    ],
+    "button": "Reģistrēties"
+  },
+  "footer": {
+    "label": "Ja jau esi reģistrējies, tad",
+    "button": "Ienāc",
+    "href": "/login"
+  }
+}

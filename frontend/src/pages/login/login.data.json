@@ -1,0 +1,27 @@
+{
+  "pageType": "login",
+  "title": "QR noliktava",
+  "form": {
+    "title": "Autorizācija",
+    "inputs": [
+      {
+        "name": "username",
+        "type": "text",
+        "label": "Lietotājvārds",
+        "placeholder": "Ievadiet lietotājvārdu"
+      },
+      {
+        "name": "password",
+        "type": "password",
+        "label": "Parole",
+        "placeholder": "Parole"
+      }
+    ],
+    "button": "Ienākt"
+  },
+  "footer": {
+    "label": "Ja neesi reģistrējies, tad",
+    "button": "Reģistrējies",
+    "href": "/register"
+  }
+}
