@@ -9,9 +9,9 @@ export interface IInput {
   validation: {
     regPattern: string,
     errorValue: string
-  }[]
-  valuesState?: TUseState<object>,
+  }[],
   areValidState?: TUseState<object>
+  joinedValues?: React.MutableRefObject<strObj>
 }
 
 export interface IFooter {
@@ -35,13 +35,21 @@ export interface IAuthJson {
   footer: IFooter
 }
 
+export interface IInputFieldData {
+  regPattern: string,
+  errorValue: string,
+  name: string,
+  index: number,
+  isValid: boolean,
+  value: string
+}
+
 /**
  * Layout page interface
  */
 export interface IAuthLayout {
   jsonData: IAuthJson,
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void,
-  valuesState: TUseState<object>
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void
 }
 /**
  * Form values useState hook
@@ -50,11 +58,4 @@ export type TUseState<T> = [
   T,
   React.Dispatch<React.SetStateAction<T>>
 ]
-
-export interface IErrorLabel {
-  regPattern: string,
-  errorValue: string,
-  name: string,
-  index: number,
-  isValid: boolean
-}
+export type strObj = { [key: string]: string }

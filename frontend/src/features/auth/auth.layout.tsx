@@ -1,14 +1,17 @@
-import { useState, useEffect } from "react"
-import { IAuthLayout, IInput, IAuthJson, IFooter, TUseState } from "./auth.intefrace"
+import { useState, useEffect, useRef } from "react"
+import { IAuthLayout, IInput, IAuthJson, IFooter, TUseState, strObj } from "./auth.intefrace"
 import Input from "./partials/form/Input"
 import SubmitButton from "./partials/form/SubmitButton"
 import Footer from "./partials/Footer"
 
-const AuthLayout = ({ jsonData, handleSubmit, valuesState }: IAuthLayout) => {
+const AuthLayout = ({ jsonData, handleSubmit }: IAuthLayout) => {
   const _: IAuthJson = jsonData
 
   const [areValid, setAreValid] = useState<object>(_.form.inputs.reduce((acc, curr) =>
     ({ ...acc, [curr.name]: false }), {}))
+
+  const joinedValues = useRef<strObj>(_.form.inputs.reduce((acc, curr) =>
+    ({ ...acc, [curr.name]: "" }), {}))
 
   return (
     <div className="flex items-center min-h-screen p-4 bg-neutral-900 justify-center w-full">
@@ -25,14 +28,16 @@ const AuthLayout = ({ jsonData, handleSubmit, valuesState }: IAuthLayout) => {
           <h3 className="my-4 text-2xl font-semibold text-white">
             {_.form.title}
           </h3>
-          <form onSubmit={handleSubmit} className="flex flex-col space-y-5">
+          <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col">
             {_.form.inputs.map((inputProps, i) =>
-              <Input {...{
-                ...inputProps,
-                valuesState,
-                areValidState: [areValid, setAreValid] as TUseState<object>
-              } as IInput}
-                key={`auth-input-${i}`} />
+              <Input
+                key={`auth-input-${i}`}
+                {...{
+                  ...inputProps,
+                  areValidState: [areValid, setAreValid],
+                  joinedValues
+                } as IInput}
+              />
             )}
             <SubmitButton
               label={_.form.button}

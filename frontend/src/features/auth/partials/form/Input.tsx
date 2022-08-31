@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { IErrorLabel, IInput, TUseState } from "../../auth.intefrace"
+import { IInput, IInputFieldData, strObj, TUseState } from "../../auth.intefrace"
 
 const Input = ({
   name,
@@ -7,46 +7,64 @@ const Input = ({
   label,
   placeholder,
   validation,
-  valuesState,
-  areValidState }: IInput) => {
+  areValidState,
+  joinedValues }: IInput) => {
 
-  type obj = { [key: string]: string }
+  const [areValid, setAreValid] = areValidState as TUseState<object>
+  const [inputfields, setInputFIelds] = useState<IInputFieldData[]>(
+    validation.map(
+      (entry, index) => ({
+        ...entry,
+        name,
+        index,
+        isValid: false,
+        value: ""
+      }) as IInputFieldData
+    )
+  )
 
-  const [values, setValues] = valuesState as TUseState<obj>
-  const [, setAreValid] = areValidState as TUseState<object>
-  const [errLabels, setErrLabels] = useState<IErrorLabel[]>(validation.map(
-    (entry, index) => ({ ...entry, name, index, isValid: false })
-  ))
-
+  /**
+   * Returns data outside this component
+   */
   useEffect(() => {
     setAreValid((prev) => ({
       ...prev,
-      [name]: errLabels.every(({ isValid }) => isValid)
+      [name]: inputfields.every(({ isValid }) => isValid)
     }))
-  }, [errLabels])
+  }, [inputfields])
+
+  // only for comparing passwords field:
+  const comparePasswords = () => {
+    if (joinedValues === undefined) return
+    const { confirmPassword, password } = joinedValues.current
+    return confirmPassword === password
+  }
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setErrLabels(errLabels.map((entry, i) => ({
-      ...entry,
-      isValid: new RegExp(entry.regPattern !== "prev"
-        ? entry.regPattern
-        : values.password
-      ).test(e.target.value)
-    })
-    ))
-    setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+    if (joinedValues)
+      joinedValues.current = ({
+        ...joinedValues.current, [e.target.name]: e.target.value
+      })
+    setInputFIelds((prev) => prev.map(entry => {
+      return ({
+        ...entry,
+        value: e.target.name === entry.name
+          ? e.target.value
+          : entry.value,
+        isValid: entry.regPattern !== "prev"
+          ? new RegExp(entry.regPattern).test(e.target.value)
+          : comparePasswords()
+      }) as IInputFieldData
+    }))
   }
 
-  const ErrorLabel = ({ errorValue, isValid }: IErrorLabel) => {
-    return (
-      <>{!isValid && Object.hasOwn(values, name) &&
-        <div className="max-w-fit text-red-400 font-semibold rounded-md px-2 py-1 whitespace-pre-wrap">
-          {`* ${errorValue}`}
-        </div>
-      }</>
-
-    )
-  }
+  const ErrorLabel = ({ errorValue, isValid, value }: IInputFieldData) => (
+    <>{!isValid && value.length > 0 &&
+      <div className="max-w-fit text-red-400 font-semibold rounded-md px-2 py-1 whitespace-pre-wrap last-of-type:mb-4">
+        {`* ${errorValue}`}
+      </div>
+    }</>
+  )
 
   return (
     <div className="flex flex-col">
@@ -60,10 +78,10 @@ const Input = ({
         placeholder={placeholder}
         type={type}
         name={name}
-        className={`my-2 px-4 py-2 text-white placeholder:text-neutral-300 bg-neutral-600 transition duration-300 rounded focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-600`}
+        className={`my-4 px-4 py-2 text-white placeholder:text-neutral-300 bg-neutral-600 transition duration-300 rounded focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-600`}
         onChange={onChange}
       />
-      {errLabels.map((errLabel, i) =>
+      {inputfields.map((errLabel, i) =>
         <ErrorLabel
           key={`err-label-${errLabel.name}-${i}`}
           {...errLabel}

@@ -63,6 +63,18 @@
             "errorValue": "Abām parolēm jābūt vienādām"
           }
         ]
+      },
+      {
+        "name": "employeeRegistration",
+        "type": "password",
+        "label": "Darbinieka reģistrācija",
+        "placeholder": "Drošības kods",
+        "validation": [
+          {
+            "regPattern": "",
+            "errorValue": ""
+          }
+        ]
       }
     ],
     "button": "Reģistrēties"

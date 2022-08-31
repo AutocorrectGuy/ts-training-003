@@ -4,18 +4,16 @@ import { useState } from "react"
 
 const RegisterPage = () => {
 
-  const [values, setValues] = useState<object>({})
-
-  const handleSubmit = (e:React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault() 
-    console.log(values)   
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    console.log(e.currentTarget)
+    console.log(Object.fromEntries(new FormData(e.currentTarget)))
   }
 
   return (
     <AuthLayout
       jsonData={jsonData}
       handleSubmit={handleSubmit}
-      valuesState={[values, setValues]}
     />
   )
 }
