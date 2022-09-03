@@ -1,26 +1,38 @@
-export const x = 0
-// import AuthLayout from "../../features/auth/auth.layout"
-// import jsonData from "./login.data.json"
-// import { useState } from "react"
+import { useState } from "react"
+import { strObj } from "../../features/auth/auth.intefrace"
+import AuthLayout from "../../features/auth/auth.layout"
+import axiosConf from "../../services/axios/axios.config"
+import TestNav from "../_partials/TestNav/TestNav"
+import jsonData from "./login.data.json"
 
-// const LoginPage = () => {
+type Props = {
+  hasNavBar?: boolean
+}
 
+const RegisterPage = ({ hasNavBar }: Props) => {
+  const [errorsFromBackend, setErrorsFromBackend] = useState<strObj>({})
 
-//   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-//     e.preventDefault()
-//     const data = new FormData()
-//     console.log(data)
-//   }
-//   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//   }
+  // backend call
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const formData = Object.fromEntries(new FormData(e.currentTarget))
+    formData.username = `${formData.username}`.toLowerCase() 
+    console.log(formData)
+    axiosConf.post("/api/login", formData)
+  }
 
-//   return (
-//     <AuthLayout
-//       jsonData={jsonData}
-//       handleSubmit={handleSubmit}
-//       handleChange={handleChange}
-//     />
-//   )
-// }
+  return (
+    <>
+      {hasNavBar && <TestNav />}
+      <AuthLayout
+        jsonData={jsonData}
+        handleSubmit={handleSubmit}
+        PAGE_TYPE={"login"}
+        errorsFromBackendState={[errorsFromBackend, setErrorsFromBackend]}
+      />
+    </>
 
-// export default LoginPage
+  )
+}
+
+export default RegisterPage

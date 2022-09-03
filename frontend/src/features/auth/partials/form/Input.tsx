@@ -1,62 +1,26 @@
-import { useState, useEffect } from "react"
-import { IInput, IInputFieldData, strObj, TUseState } from "../../auth.intefrace"
+import React, { useState, useEffect, MutableRefObject, Dispatch, SetStateAction } from "react"
+import { IInput, IInputFieldData, pageType, strObj, TUseState } from "../../auth.intefrace"
+import { initInputFieldsState, onChange, setValidBools } from "./input.helpers"
 
 const Input = ({
-  name,
+  fieldName,
   type,
   label,
   placeholder,
   validation,
   areValidState,
-  joinedValues }: IInput) => {
+  joinedValues,
+  PAGE_TYPE,
+  errorsFromBackendState }: IInput) => {
 
-  const [areValid, setAreValid] = areValidState as TUseState<object>
+  const [, setAreValid] = areValidState as TUseState<object>
   const [inputfields, setInputFIelds] = useState<IInputFieldData[]>(
-    validation.map(
-      (entry, index) => ({
-        ...entry,
-        name,
-        index,
-        isValid: false,
-        value: ""
-      }) as IInputFieldData
-    )
+    initInputFieldsState(validation, fieldName)
   )
 
-  /**
-   * Returns data outside this component
-   */
   useEffect(() => {
-    setAreValid((prev) => ({
-      ...prev,
-      [name]: inputfields.every(({ isValid }) => isValid)
-    }))
+    setValidBools({ setAreValid, fieldName, inputfields })
   }, [inputfields])
-
-  // only for comparing passwords field:
-  const comparePasswords = () => {
-    if (joinedValues === undefined) return
-    const { confirmPassword, password } = joinedValues.current
-    return confirmPassword === password
-  }
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (joinedValues)
-      joinedValues.current = ({
-        ...joinedValues.current, [e.target.name]: e.target.value
-      })
-    setInputFIelds((prev) => prev.map(entry => {
-      return ({
-        ...entry,
-        value: e.target.name === entry.name
-          ? e.target.value
-          : entry.value,
-        isValid: entry.regPattern !== "prev"
-          ? new RegExp(entry.regPattern).test(e.target.value)
-          : comparePasswords()
-      }) as IInputFieldData
-    }))
-  }
 
   const ErrorLabel = ({ errorValue, isValid, value }: IInputFieldData) => (
     <>{!isValid && value.length > 0 &&
@@ -77,13 +41,18 @@ const Input = ({
         autoComplete="off"
         placeholder={placeholder}
         type={type}
-        name={name}
-        className={`my-4 px-4 py-2 text-white placeholder:text-neutral-300 bg-neutral-600 transition duration-300 rounded focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-600`}
-        onChange={onChange}
+        name={fieldName}
+        className={`mt-1 mb-4 px-4 py-2 text-white placeholder:text-neutral-300 bg-neutral-600 transition duration-300 rounded focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-600`}
+        onChange={e => onChange(joinedValues as React.MutableRefObject<strObj>,
+          e,
+          PAGE_TYPE as pageType,
+          setInputFIelds,
+          errorsFromBackendState as [strObj, Dispatch<SetStateAction<strObj>>])
+        }
       />
       {inputfields.map((errLabel, i) =>
         <ErrorLabel
-          key={`err-label-${errLabel.name}-${i}`}
+          key={`err-label-${errLabel.fieldName}-${i}`}
           {...errLabel}
         />
       )

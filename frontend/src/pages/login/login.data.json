@@ -5,16 +5,28 @@
     "title": "Autorizācija",
     "inputs": [
       {
-        "name": "username",
+        "fieldName": "username",
         "type": "text",
         "label": "Lietotājvārds",
-        "placeholder": "Ievadiet lietotājvārdu"
+        "placeholder": "Ievadiet lietotājvārdu",
+        "validation": [
+          {
+            "regPattern": "",
+            "errorValue": ""
+          }
+        ]
       },
       {
-        "name": "password",
+        "fieldName": "password",
         "type": "password",
         "label": "Parole",
-        "placeholder": "Parole"
+        "placeholder": "Parole",
+        "validation": [
+          {
+            "regPattern": "",
+            "errorValue": ""
+          }
+        ]
       }
     ],
     "button": "Ienākt"

@@ -1,11 +1,10 @@
 {
-  "pageType": "register",
   "title": "QR noliktava",
   "form": {
     "title": "Reģistrācija",
     "inputs": [
       {
-        "name": "username",
+        "fieldName": "username",
         "type": "text",
         "label": "Lietotājvārds",
         "placeholder": "Ievadiet lietotājvārdu",
@@ -25,7 +24,7 @@
         ]
       },
       {
-        "name": "password",
+        "fieldName": "password",
         "type": "password",
         "label": "Parole",
         "placeholder": "Parole",
@@ -53,19 +52,19 @@
         ]
       },
       {
-        "name": "confirmPassword",
+        "fieldName": "confirmPassword",
         "type": "password",
         "label": "Atkārtojiet paroli",
         "placeholder": "Parole vēlreiz",
         "validation": [
           {
-            "regPattern": "prev",
+            "regPattern": "",
             "errorValue": "Abām parolēm jābūt vienādām"
           }
         ]
       },
       {
-        "name": "employeeRegistration",
+        "fieldName": "employeeRegistration",
         "type": "password",
         "label": "Darbinieka reģistrācija",
         "placeholder": "Drošības kods",
