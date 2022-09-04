@@ -1,5 +1,5 @@
 import { useState, useRef, } from "react"
-import { IAuthLayout, IInput, IAuthJson, IFooter, TUseState, strObj } from "./auth.intefrace"
+import { IAuthLayout, IInput, IAuthJson, IFooter, strObj } from "./auth.intefrace"
 import Input from "./partials/form/Input"
 import SubmitButton from "./partials/form/SubmitButton"
 import Footer from "./partials/Footer"
@@ -16,8 +16,6 @@ const AuthLayout = ({
     ({ ...acc, [curr.fieldName]: false }), {}))
   const joinedValues = useRef<strObj>(_.form.inputs.reduce((acc, curr) =>
     ({ ...acc, [curr.fieldName]: "" }), {}))
-
-
 
   return (
     <div className="flex items-center min-h-screen p-4 bg-neutral-900 justify-center w-full">

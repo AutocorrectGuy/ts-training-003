@@ -1,28 +1,26 @@
-// import { addTokenToDB } from "./login.helpers"
-import refTokenModel from "../../../dbModels/refreshToken.model"
 import { createMongoConnection } from "../../routes.helpers"
-import jwt from "jsonwebtoken"
-
-const ACCESS_TOKEN_SECRET = "asdadjkadklasdjalksd"
+import userModel from "../../../dbModels/user.model"
+import { handleErrors } from "./login.errorHandlers"
+import { createJWT, spreadableJWTCookieProps } from "../jwtHandling/jwtHandling"
 
 export const POST_login = async (
   req: any,
   res: any
 ) => {
   const db = await createMongoConnection()
-
+  const { username, password } = req.body
   try {
-    console.log(req.body)
-    if(!(req.body.username && req.body.password))
-      res.status(200).json({username: "Lai ielogotos, nepieciešams ievadīt gan lietotājvārdu, gan arī paroli!", password: ""})
-    
-    jwt.sign(req.body.username, ACCESS_TOKEN_SECRET)
-
-    // await new refTokenModel(refTokenData).save()
-    db.disconnect()
-    res.status(201).send("User uploaded succesfully")
+    // login user
+    const user = await userModel.login(username, password)
+    // create JWT token
+    const token = createJWT(user ? user._id.toString() : "")
+    // put JWT token in httpOnly cookie
+    res.cookie(...spreadableJWTCookieProps(token))
+    // return to frontend
+    res.status(200).send(user?._id)
   } catch (error) {
+    res.status(200).json(handleErrors(error))
+  } finally {
     db.disconnect()
-    res.status(400).send(`Failed to upload user: ${error}`)
   }
 }

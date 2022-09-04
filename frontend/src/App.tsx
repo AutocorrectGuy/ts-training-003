@@ -4,7 +4,6 @@ import AuthSucessfull from "./features/auth/partials/authSuccesfull/AuthSucessfu
 import FeedPage from "./pages/feed/FeedPage"
 import LoginPage from "./pages/login/LoginPage"
 import RegisterPage from "./pages/register/RegisterPage"
-import Secret from "./pages/secret/Secret"
 import "./services/tailwindcss/output.css"
 
 const App = () => {
@@ -14,7 +13,6 @@ const App = () => {
         <Route path="/" element={<FeedPage hasNavBar />}/>
         <Route path="/login" element={<LoginPage hasNavBar />} />
         <Route path="/register" element={<RegisterPage hasNavBar />} />
-        <Route path="/secret" element={<Secret hasNavBar />} />
         <Route path="/auth-success" element={<AuthSucessfull />} />
       </Routes>
     </BrowserRouter>

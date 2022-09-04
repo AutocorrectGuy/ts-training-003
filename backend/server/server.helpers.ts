@@ -17,3 +17,10 @@ export const __frontend_index_html: string = path.join(__frontend_path, "/index.
  * from server.config.json file if not deploying on heroku  
  */
 export const PORT: string | number = process.env.PORT || port
+
+/**
+ * 
+ * @param targetProcessEnv prcess.env.targetPrecessEnv
+ * @returns variables from .env file which is in the same folder with backend and frontend folder
+ */
+export const getEnv = (targetProcessEnv: string):string | undefined => process.env[targetProcessEnv]
