@@ -9,7 +9,7 @@ type JWTTokeType = "ACCESS" | "REFRESH"
 
 // token age in SECONDS
 const AGE = {
-  ACCESS: 10, // 10 seconds
+  ACCESS: 20, // 20 seconds
   REFRESH: 60 * 60 // one hour
 }
 
@@ -32,65 +32,61 @@ export const putTokenInCookie = (
   }
 )
 
-
-
-// oldschool: 
-export const verifyTokens = (
+export const verifyTokens = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   const { JWT_ACCESS_TOKEN, JWT_REFRESH_TOKEN } = req.cookies
 
-  if (!JWT_REFRESH_TOKEN)
+  if (JWT_REFRESH_TOKEN === undefined)
     return res.status(200).json({ error: "No refresh token" })
 
   /* if access token has expired:
     1. generate new access and refresh tokens
     2. but check weather it is the correct user who hold the refresh token
   */
-  if (!JWT_ACCESS_TOKEN) {
-    jwt.verify(JWT_REFRESH_TOKEN,
+  if (JWT_ACCESS_TOKEN === undefined) {
+    await jwt.verify(JWT_REFRESH_TOKEN,
       <string>getEnv("REFRESH_TOKEN_SECRET"),
       async (err: any, decoded: any) => {
-        console.log("recreating tokens...")
-        // clear cookies, because they are will not be valid anymore and there will be new
-        clearTokens(res)
         // if not verified, log out user
-        if (err) return res.status(200).json({ status: "refresh token invalidation" })
+        if (err)
+          return res.status(200).json({ status: "refresh token invalidation" })
         // find user in db based on decoded refreshtoken users _id
-        console.log("id to find: ")
-        console.log(decoded._id)
         const db = await createMongoConnection()
         try {
           const foundUser = await userModel.findOne({ _id: decoded._id })
-          if (!foundUser) return res.status(200).json({ status: "no user in db with given rt _id" })
+          if (!foundUser)
+            return res.status(200).json({ status: "no user in db with given rt _id" })
           // create new access and refresh tokens
-          console.log(foundUser.username)
-          // create tokens
+          clearTokens(res)
           const accessToken = createJWT("ACCESS", foundUser._id.toString())
           const refreshToken = createJWT("REFRESH", foundUser._id.toString())
           // set tokens into cookies
           putTokenInCookie(res, "ACCESS", accessToken)
           putTokenInCookie(res, "REFRESH", refreshToken)
         } catch (error) {
-          res.status(200).json({ status: "error while trying to find user in db" })
+          return res.status(401).json({ status: "error while trying to find user in db" })
         } finally {
           await db.disconnect()
           next()
         }
       })
   }
-  // if user hold ACCESS token, validate it
-  jwt.verify(
-    JWT_ACCESS_TOKEN,
-    <string>getEnv("REFRESH_TOKEN_SECRET"),
-    (err: any) => {
-      if (err) {
-        clearTokens(res)
-        return res.status(200).json({ status: "invalid access token" })
+  else {
+    // if user hold ACCESS token, validate it
+    await jwt.verify(
+      JWT_ACCESS_TOKEN,
+      <string>getEnv("ACCESS_TOKEN_SECRET"),
+      (err: any, decoded: any) => {
+        if (err) {
+          clearTokens(res)
+          return res.status(200).json({ status: "invalid access token" })
+        } else {
+          next()
+        }
       }
-      next()
-    }
-  )
+    )
+  }
 }

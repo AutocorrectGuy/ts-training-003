@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios, { AxiosInstance } from 'axios';
 
 const axiosConf: AxiosInstance = axios.create({
   baseURL: !process.env.NODE_ENV || process.env.NODE_ENV === 'development'

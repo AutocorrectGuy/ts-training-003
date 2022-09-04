@@ -1,14 +1,19 @@
 import TestNav from "../_partials/TestNav/TestNav"
 import { useEffect } from "react"
 import axiosConf from "../../services/axios/axios.config"
+import { useNavigate } from "react-router-dom"
 
 type Props = {
   hasNavBar?: boolean
 }
 const FeedPage = ({ hasNavBar }: Props) => {
+
+  const navigate = useNavigate()
   useEffect(() => {
     axiosConf.get("/api/posts")
       .then((res) => {
+        // res.status === 401 && navigate("/login")
+        console.log(res.status)
         console.log(res.data)
       })
   }, [])

@@ -8,7 +8,7 @@ const AuthSucessfull = () => {
   useEffect(() => {
     setTimeout(() => {
       navigate("/")
-    }, 1000)
+    }, 2000)
   }, [])
 
   return (
