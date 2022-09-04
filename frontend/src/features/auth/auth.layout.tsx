@@ -5,6 +5,9 @@ import SubmitButton from "./partials/form/SubmitButton"
 import Footer from "./partials/Footer"
 import BackendErrorLabels from "./partials/backendErrorLabel/BackendErrorLabels"
 
+// assets
+import logo_x256 from "../../assets/logo/logo_x256.png"
+
 const AuthLayout = ({
   jsonData,
   handleSubmit,
@@ -20,10 +23,13 @@ const AuthLayout = ({
   return (
     <div className="flex items-center min-h-screen p-4 bg-neutral-900 justify-center w-full">
       <div className="flex flex-col w-full sm:w-fit sm:flex-row overflow-hidden bg-neutral-900 rounded-md shadow-lg">
-        <div className={`${PAGE_TYPE === "login" ? "bg-blue-700" : "bg-emerald-700"
+        <div className={`${PAGE_TYPE === "login" 
+        ? "bg-gradient-to-r from-[#2a3018] to-neutral-800" 
+        : "bg-gradient-to-r from-[#2b011f] to-neutral-800"
           } flex p-4 py-6 text-white items-center justify-center md:min-w-[300px]`}>
-          <div className="my-3 text-4xl font-bold tracking-wider text-center">
-            <h1>
+          <div className="my-3 font-bold tracking-wider text-center">
+            <img src={logo_x256}/>
+            <h1 className="text-[#A9C70B] text-3xl">
               {_.title}
             </h1>
           </div>

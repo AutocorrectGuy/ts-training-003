@@ -1,8 +1,8 @@
 {
   "pageType": "login",
-  "title": "QR noliktava",
+  "title": "treneris",
   "form": {
-    "title": "Autorizācija",
+    "title": "Ienākt",
     "inputs": [
       {
         "fieldName": "username",

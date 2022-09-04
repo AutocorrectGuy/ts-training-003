@@ -46,8 +46,8 @@ const SubmitButton = ({
       onClick={() => { setIsLoading(true) }}
       className={`${isValid && writtenInEachFIeld
         ? pageType === "login"
-          ? "bg-blue-700 hover:bg-blue-600 text-white"
-          : "bg-emerald-700 hover:bg-emerald-600 text-white"
+          ? "bg-[#8da513] text-white hover:brightness-110"
+          : "bg-[#770e5b] text-white hover:brightness-150"
         : "bg-neutral-700 text-neutral-400 pointer-events-none select-none"
         } flex items-center justify-center w-full px-4 py-2 text-lg font-semibold transition-colors duration-300 rounded-md shadow focus:outline-none mt-10`}
     >

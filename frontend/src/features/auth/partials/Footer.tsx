@@ -12,9 +12,9 @@ const Footer = ({
         {label}
       </span>
       <a href={href} className={`${pageType === "login"
-          ? "text-blue-500 hover:text-blue-400"
-          : "text-emerald-500 hover:text-emerald-400"
-        } underline font-semibold`}>
+          ? "text-[#be3399]"
+          : "text-[#A9C70B]"
+        } hover:brightness-150 underline font-semibold`}>
         {button}
       </a>
     </p>
