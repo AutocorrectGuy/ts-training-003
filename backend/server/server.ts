@@ -10,7 +10,7 @@ const app = express()
 
 app.use(cors({
   origin: getEnv("NODE_ENV")
-    ? "https://training-003.herokuapp.com/"
+    ? "training-003.herokuapp.com/"
     : "http://localhost:3000",
   credentials: true
 }))
