@@ -8,7 +8,7 @@ const TestNav = (props: Props) => {
       <li className="p-2"><a href="/">Placeholder</a></li>
       <Link className="p-2" to={"/login"}>Login</Link>
       <Link className="p-2" to={"/register"}>Register</Link>
-      <li className="p-2"><a href="/logout">Logout</a></li>
+      <Link className="p-2" to={"/logout"}>Logout</Link>
     </ul>
   )
 }

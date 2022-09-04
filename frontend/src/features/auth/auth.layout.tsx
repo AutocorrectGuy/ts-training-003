@@ -27,9 +27,9 @@ const AuthLayout = ({
         ? "bg-gradient-to-r from-[#2a3018] to-neutral-800" 
         : "bg-gradient-to-r from-[#2e1828] to-neutral-800"
           } flex p-4 py-6 text-white items-center justify-center md:min-w-[300px]`}>
-          <div className="my-3 font-bold tracking-wider text-center">
+          <div className="my-3 tracking-wider text-center">
             <img src={logo_x256}/>
-            <h1 className="text-[#A9C70B] text-3xl">
+            <h1 className="text-[#A9C70B] text-3xl uppercase font-extrabold mt-2">
               {_.title}
             </h1>
           </div>

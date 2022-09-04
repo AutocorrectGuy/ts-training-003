@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import { IFooter } from "../auth.intefrace"
 
 const Footer = ({
@@ -11,12 +12,13 @@ const Footer = ({
       <span>
         {label}
       </span>
-      <a href={href} className={`${pageType === "login"
+      <Link to={href}
+        className={`${pageType === "login"
           ? "text-[#be3399]"
           : "text-[#A9C70B]"
-        } hover:brightness-150 underline font-semibold`}>
+          } hover:brightness-150 underline font-semibold`}>
         {button}
-      </a>
+      </Link>
     </p>
   )
 }

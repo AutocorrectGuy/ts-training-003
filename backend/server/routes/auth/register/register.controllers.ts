@@ -1,6 +1,6 @@
 import userModel from "../../../dbModels/user.model"
 import { createMongoConnection } from "../../routes.helpers"
-import { createJWT, spreadableJWTCookieProps } from "../jwtHandling/jwtHandling"
+import { createJWT, putTokenInCookie } from "../jwtHandling/jwtHandling"
 import { handleErrors } from "./register.errorHandlers"
 import { validateUser } from "./register.helpers"
 
@@ -13,15 +13,18 @@ export const POST_register = async (
   try {
     // register user in database
     const newUser = await new userModel(validateUser(req.body)).save()
-    // create JWT token
-    const token = createJWT(newUser._id.toString())
-    // put JWT token in httpOnly cookie
-    res.cookie(...spreadableJWTCookieProps(token))
+
+    // create JWT ACCESS and REFRESH token
+    const accessToken = createJWT("ACCESS", newUser._id.toString())
+    const refreshToken = createJWT("REFRESH", newUser._id.toString())
+    // putting JWT token in httpOnly cookie
+    putTokenInCookie(res, "ACCESS", accessToken)
+    putTokenInCookie(res, "REFRESH", refreshToken)
     // return to frontend
     res.status(201).send("User uploaded succesfully")
   } catch (error) {
     res.status(200).json(handleErrors(error))
   } finally {
-    db.disconnect()
+    await db.disconnect()
   }
 }
