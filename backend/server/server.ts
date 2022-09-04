@@ -7,10 +7,10 @@ import cors from "cors"
 
 
 const app = express()
-
+const origin = "://training-003.herokuapp.com/"
 app.use(cors({
   origin: getEnv("NODE_ENV")
-    ? "training-003.herokuapp.com/"
+    ? [`htttp${origin}`, `htttps${origin}`] 
     : "http://localhost:3000",
   credentials: true
 }))

@@ -1,11 +1,9 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
-const devUrl = "http://localhost:3001/"
-const prodUrl = "training-003.herokuapp.com/"
-const axiosConf:AxiosInstance = axios.create({
+const axiosConf: AxiosInstance = axios.create({
   baseURL: !process.env.NODE_ENV || process.env.NODE_ENV === 'development'
-  ? devUrl
-  : prodUrl,
+    ? "http://localhost:3001/"
+    : `${window.location.href.split(":")[0]}training-003.herokuapp.com/`,
   withCredentials: true
 });
 
