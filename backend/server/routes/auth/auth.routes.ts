@@ -3,14 +3,22 @@ import { POST_login } from "./login/login.controllers"
 import { POST_register } from "./register/register.controllers"
 import { verifyTokens } from "./jwtHandling/jwtHandling"
 import { POST_logout } from "./logout/logout.controllers"
+import { GET_isAuthorized } from "./isAuthorized/isAuthorized.controllers"
 
 const router = Router()
 
+// logs useri in: creates access and refresh tokens
 router.post("/login", POST_login)
 
+/* creates new user entry in database and then logs user in, 
+ creates access and refresh tokens */
 router.post("/register", POST_register)
 
+// logs user out: deletes access and refresh tokens
 router.post("/logout", POST_logout)
+
+// router.get("/isauthorized", GET_isAuthorized)
+
 
 const testPosts = [{ id: 1, name: "name1" }, { id: 2, name: "name2" }, { id: 3, name: "name3" }]
 router.get("/posts", verifyTokens, (req, res) => {

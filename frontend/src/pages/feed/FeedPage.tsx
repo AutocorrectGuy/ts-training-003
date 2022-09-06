@@ -8,11 +8,9 @@ type Props = {
 }
 const FeedPage = ({ hasNavBar }: Props) => {
 
-  const navigate = useNavigate()
   useEffect(() => {
     axiosConf.get("/api/posts")
       .then((res) => {
-        // res.status === 401 && navigate("/login")
         console.log(res.status)
         console.log(res.data)
       })

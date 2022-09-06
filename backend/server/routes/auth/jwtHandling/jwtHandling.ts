@@ -39,8 +39,10 @@ export const verifyTokens = async (
 ) => {
   const { JWT_ACCESS_TOKEN, JWT_REFRESH_TOKEN } = req.cookies
 
-  if (JWT_REFRESH_TOKEN === undefined)
+  if (JWT_REFRESH_TOKEN === undefined) {
+    clearTokens(res)
     return res.status(200).json({ error: "No refresh token" })
+  }
 
   /* if access token has expired:
     1. generate new access and refresh tokens
