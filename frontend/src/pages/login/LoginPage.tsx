@@ -7,7 +7,6 @@ import axiosConf from "../../services/axios/axios.config"
 import { useAuthCheck } from "../../services/axios/axios.requests"
 import TestNav from "../_partials/TestNav/TestNav"
 import jsonData from "./login.data.json"
-import cookies from "react-cookie"
 
 type Props = {
   hasNavBar?: boolean
