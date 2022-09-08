@@ -11,8 +11,7 @@ const FeedPage = ({ hasNavBar }: Props) => {
   useEffect(() => {
     axiosConf.get("/api/posts")
       .then((res) => {
-        console.log(res.status)
-        console.log(res.data)
+        console.log(`Connection status: ${res.status}; data: ${res.data}`)
       })
   }, [])
 

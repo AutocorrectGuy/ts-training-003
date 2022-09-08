@@ -4,6 +4,7 @@ import authRoutes from "./routes/auth/auth.routes"
 import bodyParser from "body-parser"
 import cookieParser from "cookie-parser"
 import cors from "cors"
+import accountRoutes from "./routes/account/account.routes"
 
 
 const app = express()
@@ -24,6 +25,7 @@ app.use(Static(__frontend_path))
 
 // routes
 app.use("/api", authRoutes)
+app.use("/get-account", accountRoutes)
 
 app.get("*", (req, res) => res.sendFile(__frontend_index_html))
 

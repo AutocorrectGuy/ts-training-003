@@ -4,33 +4,7 @@ import { Request, Response, NextFunction } from "express"
 import { clearTokens } from "../logout/logout.controllers"
 import userModel from "../../../dbModels/user.model"
 import { createMongoConnection } from "../../routes.helpers"
-
-type JWTTokeType = "ACCESS" | "REFRESH"
-
-// token age in SECONDS
-const AGE = {
-  ACCESS: 20, // 20 seconds
-  REFRESH: 60 * 60 // one hour
-}
-
-export const createJWT = (tokenType: JWTTokeType, _id: string) => jwt.sign(
-  { _id },
-  <string>getEnv(`${tokenType}_TOKEN_SECRET`),
-  { expiresIn: AGE[tokenType] }
-)
-
-export const putTokenInCookie = (
-  res: Response,
-  tokenType: JWTTokeType,
-  jwt: any
-) => res.cookie(
-  `JWT_${tokenType}_TOKEN`,
-  jwt,
-  {
-    httpOnly: true,
-    maxAge: AGE[tokenType] * 1000
-  }
-)
+import { createJWTSandPutCookies } from "./jwtHandling.helpers"
 
 export const verifyTokens = async (
   req: Request,
@@ -61,13 +35,7 @@ export const verifyTokens = async (
           const foundUser = await userModel.findOne({ _id: decoded._id })
           if (!foundUser)
             return res.status(200).json({ status: "no user in db with given rt _id" })
-          // create new access and refresh tokens
-          clearTokens(res)
-          const accessToken = createJWT("ACCESS", foundUser._id.toString())
-          const refreshToken = createJWT("REFRESH", foundUser._id.toString())
-          // set tokens into cookies
-          putTokenInCookie(res, "ACCESS", accessToken)
-          putTokenInCookie(res, "REFRESH", refreshToken)
+          createJWTSandPutCookies(res, foundUser)
         } catch (error) {
           return res.status(401).json({ status: "error while trying to find user in db" })
         } finally {
