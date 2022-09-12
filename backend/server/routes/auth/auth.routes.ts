@@ -1,9 +1,8 @@
 import { Router } from "express"
 import { POST_login } from "./login/login.controllers"
 import { POST_register } from "./register/register.controllers"
-import { verifyTokens } from "./jwtHandling/jwtHandling"
 import { POST_logout } from "./logout/logout.controllers"
-import { GET_isAuthorized } from "./isAuthorized/isAuthorized.controllers"
+import { verifyTokens } from "../../middleware/verifyTokens/verifyTokens"
 
 const router = Router()
 

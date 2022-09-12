@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken"
-import { getEnv } from "../../../server.helpers"
+import { getEnv } from "../../server.helpers"
 import { Request, Response, NextFunction } from "express"
-import { clearTokens } from "../logout/logout.controllers"
-import userModel from "../../../dbModels/user.model"
-import { createMongoConnection } from "../../routes.helpers"
+import userModel from "../../dbModels/user.model"
+import { clearTokens } from "../../routes/auth/logout/logout.controllers"
+import { createMongoConnection } from "../../routes/routes.helpers"
 import { createJWTSandPutCookies } from "./jwtHandling.helpers"
 
 export const verifyTokens = async (
@@ -23,6 +23,8 @@ export const verifyTokens = async (
     2. but check weather it is the correct user who hold the refresh token
   */
   if (JWT_ACCESS_TOKEN === undefined) {
+    /* if callback if provided, like in this case, then it is 
+    async function. Typescript seems to not recognise that */
     await jwt.verify(JWT_REFRESH_TOKEN,
       <string>getEnv("REFRESH_TOKEN_SECRET"),
       async (err: any, decoded: any) => {
@@ -36,11 +38,11 @@ export const verifyTokens = async (
           if (!foundUser)
             return res.status(200).json({ status: "no user in db with given rt _id" })
           createJWTSandPutCookies(res, foundUser)
+          next()
         } catch (error) {
           return res.status(401).json({ status: "error while trying to find user in db" })
         } finally {
           await db.disconnect()
-          next()
         }
       })
   }

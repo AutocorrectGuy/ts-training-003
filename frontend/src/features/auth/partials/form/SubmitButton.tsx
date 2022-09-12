@@ -21,9 +21,7 @@ const SubmitButton = ({
   const [errorsFromBackend, setErrorsFromBackend] = errorsFromBackendState
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  useEffect(() => {
-    setIsLoading(false)
-  }, [errorsFromBackend])
+  useEffect(() => { setIsLoading(false) }, [errorsFromBackend])
 
 
   const writtenInEachFIeld = pageType === "login"
@@ -40,6 +38,7 @@ const SubmitButton = ({
       visible={true}
     />
   )
+
   return (
     <button
       type={(isValid && writtenInEachFIeld) ? "submit" : "button"}

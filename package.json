@@ -1,6 +1,7 @@
 {
   "scripts": {
     "postinstall": "cd backend && yarn && cd .. && cd frontend && yarn && yarn build",
-    "start": "cd backend && yarn start"
+    "start": "cd backend && yarn start",
+    "mongodb": "cd C:\\Program Files\\MongoDB\\Server\\6.0\\bin && mongod.exe"
   }
 }

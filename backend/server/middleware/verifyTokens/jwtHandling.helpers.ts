@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken"
-import { getEnv } from "../../../server.helpers"
+import { getEnv } from "../../server.helpers"
 import { Response } from "express"
-import { clearTokens } from "../logout/logout.controllers"
+import { clearTokens } from "../../routes/auth/logout/logout.controllers"
 
 type JWTTokeType = "ACCESS" | "REFRESH"
 

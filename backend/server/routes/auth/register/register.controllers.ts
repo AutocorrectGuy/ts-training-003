@@ -1,6 +1,6 @@
 import userModel from "../../../dbModels/user.model"
 import { createMongoConnection } from "../../routes.helpers"
-import { createJWTSandPutCookies } from "../jwtHandling/jwtHandling.helpers"
+import { createJWTSandPutCookies } from "../../../middleware/verifyTokens/jwtHandling.helpers"
 import { handleErrors } from "./register.errorHandlers"
 import { validateUser } from "./register.helpers"
 
