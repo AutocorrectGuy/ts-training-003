@@ -43,6 +43,7 @@ const AccountPage = ({ hasNavBar }: Props) => {
       ? <div>Loading...</div>
       : <AccountPanel userData={userData} />)
   }
+  
   return RenderWithLoginStatus({
     loggedIn,
     children:

@@ -6,18 +6,22 @@ import AccountPage from "./pages/account/AccountPage"
 import FeedPage from "./pages/feed/FeedPage"
 import LoginPage from "./pages/login/LoginPage"
 import RegisterPage from "./pages/register/RegisterPage"
+import Task1 from "./pages/tasks/task1/Task1"
 import "./services/tailwindcss/output.css"
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<FeedPage hasNavBar />}/>
+        <Route path="/" element={<FeedPage hasNavBar />} />
         <Route path="/login" element={<LoginPage hasNavBar />} />
         <Route path="/register" element={<RegisterPage hasNavBar />} />
         <Route path="/logout" element={<LogoutSuccessfull />} />
         <Route path="/auth-success" element={<AuthSucessfull />} />
         <Route path="/account" element={<AccountPage hasNavBar />} />
+        {/* Tasks */}
+        <Route path="/task1" element={<Task1 />} />
+
       </Routes>
     </BrowserRouter>
   )

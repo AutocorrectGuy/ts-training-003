@@ -14,6 +14,7 @@ const AuthLayout = ({
   PAGE_TYPE,
   errorsFromBackendState
 }: IAuthLayout) => {
+  
   const _: IAuthJson = jsonData
   const [areValid, setAreValid] = useState<object>(_.form.inputs.reduce((acc, curr) =>
     ({ ...acc, [curr.fieldName]: false }), {}))

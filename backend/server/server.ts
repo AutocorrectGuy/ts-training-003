@@ -18,8 +18,6 @@ app.use(cors({
 
 // middleware
 app.use(bodyParser.json())
-
-
 app.use(cookieParser())
 app.use(Static(__frontend_path))
 
